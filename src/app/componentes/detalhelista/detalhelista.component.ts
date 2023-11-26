@@ -21,14 +21,14 @@ export class DetalhelistaComponent implements OnInit {
   public idLista: number = 0;
   public listaCompras: Lista = new Lista();
 
-  constructor(private produtoService: ProdutosService, 
+  constructor(private produtoService: ProdutosService,
               private activatedRoute: ActivatedRoute,
               private itemListaSrv: ItenslistaService,
               private listaService: ListasService) {
     this.novoProduto = new Produto();
     this.novoItem = new ItemLista();
     this.idLista = this.activatedRoute.snapshot.params['id'];
-    
+
   }
 
   ngOnInit(): void {
@@ -37,26 +37,26 @@ export class DetalhelistaComponent implements OnInit {
   }
 
   public recuperarDetalhesDaLista(idLista:number){
-     this.listaService.recuperarPorId(this.idLista).subscribe(
-      (res: Lista) => {
+     this.listaService.recuperarPorId(this.idLista).subscribe({
+      next: (res: Lista) => {
         this.listaCompras = res;
         console.log(res);
       },
-      (err) => {
+      error: (err) => {
         alert("Nao consegui recuperar a lista de compras");
       }
-     );
+    });
   }
 
   public recuperarTodosOsProdutos() {
-    this.produtoService.getAllProdutos().subscribe(
-      (res: Produto[]) => {
+    this.produtoService.getAllProdutos().subscribe({
+      next: (res: Produto[]) => {
         this.listaProdutos = res;
       },
-      (err) => {
+      error: (err) => {
         alert("Erro ao recuperar Lista de Produtos");
       }
-    );
+  });
   }
 
   public exibirModal() {
@@ -68,31 +68,31 @@ export class DetalhelistaComponent implements OnInit {
   }
 
   public cadastrarNovoProduto() {
-    this.produtoService.addNewProduct(this.novoProduto).subscribe(
-      (res: Produto) => { 
+    this.produtoService.addNewProduct(this.novoProduto).subscribe({
+      next: (res: Produto) => {
         alert("Produto cadastrado com sucesso!");
         this.novoProduto = new Produto();
         this.recuperarTodosOsProdutos();
       },
-      (err) => { 
-        alert("Não consegui cadastrar novo produto.") 
+      error: (err) => {
+        alert("Não consegui cadastrar novo produto.")
       }
-    );
+  });
     this.formNovoProduto = false;
   }
 
   public adicionarItemLista(){
     this.novoItem.lista.id = this.idLista;
-    this.itemListaSrv.adicionarNovoItem(this.novoItem).subscribe(
-      (res: ItemLista)=>{
+    this.itemListaSrv.adicionarNovoItem(this.novoItem).subscribe({
+      next: (res: ItemLista)=>{
         alert("Novo Item adicionado com sucesso!");
         this.novoItem = new ItemLista();
         this.recuperarDetalhesDaLista(this.idLista);
       },
-      (err) =>{
+      error: (err) =>{
         alert("Não consegui adicionar novo item");
       }
-    );
+  });
   }
 
   public atualizarStatus(item: ItemLista){
@@ -100,13 +100,13 @@ export class DetalhelistaComponent implements OnInit {
     item.lista = new Lista();
     item.concluido = 1;
     item.lista.id = this.idLista;
-    this.itemListaSrv.alterarItem(item).subscribe(
-      (res:ItemLista)=>{
+    this.itemListaSrv.alterarItem(item).subscribe({
+      next: (res:ItemLista)=>{
         console.log("Item concluido");
       },
-      (err)=>{
+      error: (err)=>{
         alert("erro ao atualizar item");
       }
-    );
+  });
   }
 }

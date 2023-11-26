@@ -6,8 +6,9 @@
     "axe/name-role-value": [
       "default",
       {
-        "button-name": "off"
+        "button-name": "on"
       }
-    ]
+    ],
+    "no-inline-styles": "on"
   }
 }

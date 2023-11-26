@@ -12,4 +12,12 @@
 
 .lista{
   border-bottom: 1px solid gray;
+  padding-left: 2px;
+  padding-right: 5px;
+}
+
+a, a:active, a:link, a:hover, a:visited {
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;;
 }
